@@ -125,6 +125,8 @@ namespace TicketingManagementSystemAPI.Controllers
                 Content = ticketFormDto.Content,
                 Priority = ticketFormDto.Priority,
                 FilePath = ticketFormDto.FilePath,
+                AssignedBy = ticketFormDto.AssignedBy,
+                AssignedTo= ticketFormDto.AssignedTo,
 
             };
 
@@ -149,6 +151,26 @@ namespace TicketingManagementSystemAPI.Controllers
 
             return Ok(new { message = "Ticket created successfully",ticketFormData });
         }
+
+
+        [HttpGet("downloadFile")]
+        public IActionResult DownloadFile(string filePath)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Filepath", filePath); // Assuming files are stored in the wwwroot folder
+            var memory = new MemoryStream();
+
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                stream.CopyTo(memory);
+            }
+
+            memory.Position = 0;
+            var contentType = "application/octet-stream";
+            var fileName = Path.GetFileName(path);
+
+            return File(memory, contentType, fileName);
+        }
+
         [HttpGet("getissues")]
         public async Task<ActionResult<IEnumerable<TicketFormData>>> GetTicketIssues(string firstName)
         {
@@ -176,6 +198,19 @@ namespace TicketingManagementSystemAPI.Controllers
             return ticketIssues;
         }
 
+
+        [HttpGet("getissuebyid")]
+        public async Task<ActionResult<TicketFormData>> GetIssueById(int id)
+        {
+            var ticketIssue = await _context.TicketFormData.FindAsync(id);
+
+            if (ticketIssue == null)
+            {
+                return NotFound("Ticket not found");
+            }
+
+            return ticketIssue;
+        }
 
 
     }

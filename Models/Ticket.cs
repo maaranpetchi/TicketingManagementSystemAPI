@@ -67,6 +67,7 @@ namespace TicketingManagementSystemAPI.Models
         public string AssignedTo { get; set; }
         public bool IsActive { get; set; }
         public string FilePath { get; set; }
+
     }
 
     public class TicketFormData
@@ -89,7 +90,11 @@ namespace TicketingManagementSystemAPI.Models
         public string BayNumber { get; set; }
         public string Content { get; set; }
         public string Priority { get; set; }
+        public string AssignedBy { get; set; }
+        public string AssignedTo { get; set; }
         public string FilePath { get; set; }
+
+
     }
 
     public class TicketStatus
@@ -118,6 +123,8 @@ namespace TicketingManagementSystemAPI.Models
         public string Content { get; set; }
         public string Priority { get; set; }
         public string FilePath { get; set; }
+        public string AssignedBy { get; set; }
+        public string AssignedTo { get; set; }
     }
 
 
